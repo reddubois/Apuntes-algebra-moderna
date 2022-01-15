@@ -1,0 +1,460 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,es-nodecimaldot]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathtools}
+\usepackage[bottom]{footmisc}
+\usepackage{xcolor}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\usepackage{graphicx}
+\renewcommand\qedsymbol{$\blacksquare$}
+\usepackage{enumitem}
+\newcommand*{\vcenteredhbox}[1]{\begin{tabular}{@{}c@{}}#1\end{tabular}}
+\newcommand*{\colorboxed}{}
+\usepackage{physics}
+
+\DeclareMathOperator{\Hom}{Hom}
+
+
+\def\colorboxed#1#{%
+  \colorboxedAux{#1}%
+}
+\newcommand*{\colorboxedAux}[3]{%
+  % #1: optional argument for color model
+  % #2: color specification
+  % #3: formula
+  \begingroup
+    \colorlet{cb@saved}{.}%
+    \color#1{#2}%
+    \boxed{%
+      \color{cb@saved}%
+      #3%
+    }%
+  \endgroup
+}
+
+\usepackage{fancyhdr}
+\usepackage[left=1.2in,right=1.2in,top=1in,bottom=1.25in,%
+            footskip=.25in]{geometry}
+\setlength\parindent{0pt}
+
+\newcommand\blfootnote[1]{%
+  \begingroup
+  \renewcommand\thefootnote{}\footnote{#1}%
+  \addtocounter{footnote}{-1}%
+  \endgroup
+}
+
+\title{Álgebra Moderna 2: Teoría de Espacios Vectoriales}
+\author{\Large Rafael Dubois\\ Universidad del Valle de Guatemala \\ \texttt{dub19093@uvg.edu.gt}}
+\date{\today}
+
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{2pt}
+\fancyfoot{}
+\rhead{\footnotesize Teoría de Espacios Vectoriales}
+\lhead{\footnotesize Álgebra Moderna 2}
+\rfoot{\thepage}
+\lfoot{}
+\setlength{\headheight}{28pt}
+
+\begin{document}
+
+\maketitle
+\lhead{\footnotesize Universidad del Valle de Guatemala \\ 
+\footnotesize Departamento de Matemática \\ 
+\footnotesize Álgebra Moderna 2}
+\rhead{\footnotesize Licenciatura en Matemática Aplicada \\ 
+\footnotesize Rafael Dubois \\ 
+\footnotesize Carné 19093}
+\thispagestyle{fancy}
+
+\section{Conceptos básicos y elementales}
+
+Un conjunto no vacío $V$ es un espacio vectorial sobre un campo $F$ si forma un grupo abeliano bajo la suma $(+)$, y si para todo $\alpha,\beta\in F$ y $v,w\in V$ se tiene:
+\begin{enumerate}
+
+\item \textbf{Cerradura del producto por escalar.}
+
+\item \textbf{Distributividad del producto por escalar sobre la suma.}
+
+\item \textbf{Distributividad de la suma sobre el producto por escalar.}
+
+\item \textbf{Asociatividad del producto por escalar.}
+
+\item \textbf{Neutro del producto por escalar.}
+
+\end{enumerate}
+
+\subsection*{\color{violet} Subespacios vectoriales}
+
+Si $V$ es un espacio vectorial sobre $F$ y si $W\subseteq V$, se dice que $W$ es un subespacio vectorial de $V$ si este es también un espacio vectorial sobre $F$, con las mismas operaciones de $V$. De manera equivalente, $W$ es un subespacio de $V$ si para todo $w_1,w_2\in W$ y para todo $\alpha,\beta\in F$ se da $\alpha w_1+\beta w_2\in W$.
+
+\subsection*{\color{violet} Homomorfismos de espacios vectoriales}
+
+Si $U$ y $V$ son espacios vectoriales sobre $F$, se dice que $T:U\to V$ es un homomorfismo si
+\begin{align*}
+T(u_1+u_2)=T(u_1)+T(u_2), && T(\alpha u)=\alpha T(u).
+\end{align*} 
+
+\subsubsection*{\color{purple} Isomorfimos de espacios vectoriales}
+
+Si $U$ y $V$ son espacios vectoriales sobre $F$, y si $T:U\to V$ es un homomorfismo inyectivo, este es directamente un isomorfismo de $U$ en $V$.
+
+
+\blfootnote{En este documento, los códigos de color van de la siguiente manera: Negro, Títulos; \color{blue} Azul, Lemas; \color{red} Rojo, Teoremas; \color{violet} Violeta, Definiciones; \color{purple} Morado, Propiedades; \color{teal} Aqua, Otros subtítulos.}
+
+\newpage
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{2pt}
+\fancyfoot{}
+\rhead{\footnotesize Teoría de Espacios Vectoriales}
+\lhead{\footnotesize Álgebra Moderna 2}
+\rfoot{\thepage}
+\lfoot{}
+\setlength{\headheight}{28pt}
+
+\subsection*{\color{blue} Lema 4.1:}
+
+Si $V$ es un espacio vectorial sobre $F$, para $\alpha\in F$ y $v\in V$ se cumple:
+\begin{itemize}
+
+\item $\alpha\cdot 0=0$;
+
+\item $0\cdot v=0$;
+
+\item $(-\alpha)v=-(\alpha v)$;
+
+\item $v\neq 0$ y $\alpha v=0$ implica $\alpha=0$.
+
+\end{itemize}
+
+\subsection*{\color{blue} Lema 4.2:}
+
+Si $V$ es un espacio vectorial sobre $F$ y $W$ es un subespacio de $V$, entonces $V/W$ es un espacio vectorial sobre $F$ que cumple:
+\begin{itemize}
+
+\item $(v_1+W)+(v_2+W)=(v_1+v_2)+W$;
+
+\item $\alpha(v+W)=\alpha v+W$.
+
+\end{itemize}
+El subespacio $V/W$ recibe el nombre de espacio cociente.
+
+\subsection*{\color{red} Teorema 4A:}
+
+Si $T$ es un homomorfismo sobreyectivo de $U$ en $V$ con kernel $K$, entonces $V$ es isomorfo a $U/K$. Además, si $U$ es un espacio vectorial y $W$ es subespacio de $U$, existe un homomorfismo sobreyectivo de $U$ en $U/W$.
+
+\subsection*{\color{violet} Suma interna directa}
+
+Sea $V$ un espacio vectorial sobre $F$, y sean $U_1,\ldots,U_n$ subespacios de $V$. Se dice que $V$ es la suma directa interna de $U_1,\ldots,U_n$ si cada elemento $v\in V$ puede ser escrito de forma única como la suma de un elemento de cada $U_i$. 
+
+\subsection*{\color{violet} Suma externa directa}
+
+Dados $V_1,\ldots,V_n$ espacios vectoriales sobre $F$, y $V$ el espacio de $n$-tuplas con entradas de cada $V_i$, $V$ es la suma externa directa de $V_1,\ldots,V_n$. Esto se expresa $V=V_1\oplus V_2\oplus\cdots\oplus V_n$.
+
+\subsection*{\color{red} Teorema 4B:}
+
+Si $V$ es la suma interna directa de $U_1,\ldots,U_n$, entonces $V$ es isomorfo a la suma externa directa del mismo conjunto de espacios $U_1,\ldots,U_n$.
+
+\newpage
+\section{Independencia lineal y bases}
+
+\subsection*{\color{violet} Combinación lineal}
+
+Si $V$ es un espacio vectorial sobre $F$, cada elemento $\alpha_1v_1+\cdots+\alpha_nv_n$ es una combinación lineal.
+ 
+\subsection*{\color{violet} Generado}
+
+Si $S$ es un subconjunto no vacío del espacio vectorial $V$, se define a $L(S)$ como el generado lineal de $S$: el conjunto de todas las combinaciones lineales de elementos de $S$.
+
+\subsection*{\color{blue} Lema 4.3:}
+
+Cada $L(S)$ es un subespacio de $V$.
+
+\subsection*{\color{blue} Lema 4.4:}
+
+Dados $S$ y $T$ subconjuntos de $V$, entonces:
+\begin{itemize}
+
+\item $S\subseteq T$ implica $L(S)\subseteq L(T)$;
+
+\item $L(S\cup T)=L(S)+L(T)$;
+
+\item $L\big(L(S)\big)=L(S)$.
+
+\end{itemize}
+
+\subsection*{\color{violet} Espacios finito-dimensionales}
+
+Se dice que el espacio vectorial $V$ es finito-dimensional si tiene un subconjunto finito $S$ tal que $V=L(S)$.
+
+\subsection*{\color{violet} Dependencia lineal}
+
+Si $V$ es un espacio vectorial, se dice que $v_1,\ldots,v_n\in V$ son linealmente dependientes si existen escalares no todos nulos $\alpha_1,\ldots,\alpha_n\in F$ tales que $\alpha_1v_1+\cdots+\alpha_nv_n=0$.
+
+\subsection*{\color{blue} Lema 4.5:}
+
+Si $v_1,\ldots,v_n\in V$ son linealmente independientes, entonces todo elemento en $L\{v_1,\ldots,v_n\}$ tiene una representación única en la forma $\alpha_1v_1+\cdots+\alpha_nv_n$ para $\alpha_1,\ldots,\alpha_n\in F$.
+
+\subsection*{\color{red} Teorema 4C:}
+
+Todo subconjunto de elementos $v_1,\ldots,v_n\in V$ es linealmente independiente o cumple con que existe algún $v_k\in\{v_1,\ldots,v_n\}$ que es combinación lineal de los demás elementos en $\{v_1,\ldots,v_n\}$.
+
+\subsubsection*{\color{red} Corolario 1 del teorema 4C:}
+
+Si $v_1,\ldots,v_n\in V$ tiene generado $W$, y si para $k<n$ se tiene que $v_1,\ldots,v_k$ son linealmente independientes, entonces existe un subconjunto de $v_1,\ldots,v_n$ que contiene a $v_1,\ldots,v_k$ y otros vectores, el cual es linealmente independiente y también tiene generado $W$.
+
+\subsubsection*{\color{red} Corolario 2 del teorema 4C:}
+
+Si $V$ es un espacio vectorial finito-dimensional, entonces contiene un conjunto finito $v_1,\ldots,v_n$ de elementos linealmente independientes que generan a $V$.
+
+\subsection*{\color{violet} Base}
+
+Un subconjunto $S$ de un espacio vectorial $V$ se llama una base de $V$ si consiste de elementos linealmente independientes y si $V=L(S)$.
+
+\subsubsection*{\color{red} Corolario 3 del teorema 4C:}
+
+Si $V$ es un espacio vectorial finito-dimensional y $v_1,\ldots,v_n$ genera a $V$, entonces algún subconjunto de $v_1,\ldots,v_n$ forma una base para $V$.
+
+\subsection*{\color{blue} Lema 4.6:}
+
+Si $v_1,\ldots,v_n$ es una base de $V$ sobre $F$ y si $w_1,\ldots,w_m$ en $V$ es linealmente independiente sobre $F$, entonces $m\leq n$.
+
+\subsubsection*{\color{blue} Corolario 1 del lema 4.6:}
+
+Si $V$ es un espacio vectorial finito-dimensional sobre $F$, entonces la cardinalidad de sus bases siempre es la misma. 
+
+\subsubsection*{\color{blue} Corolario 2 del lema 4.6:}
+
+$F^n$ es isomorfo a $F^m$ si y solo si $m=n$.
+
+\subsubsection*{\color{blue} Corolario 3 del lema 4.6:}
+
+Si $V$ es un espacio vectorial finito-dimensional sobre $F$, entonces $V$ es isomorfo a $F^n$ para un entero $n$ único, el cual es la cardinalidad de su base.
+
+\subsection*{\color{violet} Dimensión de un espacio vectorial}
+
+La cardinalidad de la base de un espacio vectorial $V$ es la dimensión de dicho espacio.
+
+\subsubsection*{\color{blue} Corolario 4 del lema 4.6:}
+
+Todo par de espacios vectoriales finito-dimensionales sobre $F$ con la misma dimensión son isomorfos.
+
+\subsection*{\color{blue} Lema 4.7:}
+
+Si $V$ es un espacio vectorial finito-dimensional sobre $F$ y $v_1,\ldots,v_m\in V$ son linealmente independientes, entonces existen $v_{n+1},\ldots,v_{m+n}\in V$ tales que $v_1,\ldots,v_{m+n}$ es una base de $V$.
+
+\subsection*{\color{blue} Lema 4.8:}
+
+Si $V$ es un espacio vectorial finito-dimensional y $W$ es un subespacio de $V$, entonces $W$ es finito-dimensional, $\dim(W)\leq\dim(V)$ y $\dim(V/W)=\dim(V)-\dim(W)$.
+
+\subsubsection*{\color{blue} Corolario del lema 4.8:}
+
+Si $A$ y $B$ son subespacios finito-dimensionales del espacio vectorial $V$, entonces $A+B$ es finito-dimensional y $\dim(A+B)=\dim(A)+\dim(B)-\dim(A\cap B)$.
+
+\newpage
+
+\section{Espacios duales}
+
+\subsection*{\color{violet} Conjunto de homomorfismos}
+
+Se define $\Hom(V,W)$ como el conjunto de todos los homomorfismos de $V$ en $W$. 
+
+\subsection*{\color{blue} Lema 4.9:}
+
+Para $V$ y $W$ espacios vectoriales sobre $F$, se tiene que $\Hom(V,W)$ es también un espacio vectorial sobre $F$
+
+\subsection*{\color{red} Teorema 4D:}
+
+Si $V$ y $W$ son espacios vectoriales sobre $F$ de dimensión $m$ y $n$ respectivamente,  entonces $\Hom(V,W)$ es espacio vectorial sobre $F$ de dimensión $mn$.
+
+\subsubsection*{\color{red} Corolario 1 del teorema 4D:}
+
+Si $\dim(V)=m$, entonces $\dim\big(\Hom(V,V)\big)=m^2$.
+
+\subsubsection*{\color{red} Corolario 2 del teorema 4D:}
+
+Si $\dim(V)=m$, entonces $\dim\big(\Hom(V,F)\big)=m$.
+
+\subsection*{\color{violet} Espacio dual}
+
+Si $V$ es un espacio vectorial sobre $F$, entonces se define a $V^*=\Hom(V,F)$ como su espacio dual. Cada elemento de $V^*$ recibe el nombre de funcional lineal de $V$ en $F$, y son funciones que mapean elementos del espacio vectorial a su campo de escalares.
+
+\subsection*{\color{blue} Lema 4.10:}
+
+Si $V$ es un espacio finito-dimensional y $v\in V$ es distinto de 0, entonces existe $f\in V^*$ tal que $f(v)$ sea también distinto de 0.
+
+\subsection*{\color{violet} Doble dual}
+
+El espacio dual de $V^*$ es llamado doble dual, y se denota por $V^{**}$.
+
+\subsection*{\color{blue} Lema 4.11:}
+
+Si $V$ es un espacio finito-dimensional y se define $\psi: V\to V^{**}$ con $\psi(v)=T_v(f)=f(v)$ para $f\in V^*$, entonces $\psi$ es un isomorfismo sobreyectivo de $V$ en $V^{**}$.
+
+\subsection*{\color{violet} Aniquilador}
+
+Si $W$ es un subespacio de $V$, entonces $A(W)=\{f\in V^*\mid \forall w\in W, f(w)=0\}$ es el aniquilador de $W$. Este conjunto es un subespacio de $V^*$.
+
+\newpage
+\subsection*{\color{red} Teorema 4E:}
+
+Si $V$ es un espacio finito-dimensional y $W$ es un subespacio de $V$, entonces $W^*$ es isomorfo a $V^*/A(W)$ y $\dim\big(A(W)\big)=\dim(V)-\dim(W)$.
+
+\subsubsection*{\color{red} Corolario del teorema 4E:}
+
+El aniquilador del aniquilador es el conjunto original: $A\big(A(W)\big)=W$.
+
+\subsection*{\color{violet} Rango}
+
+Dado $F^n$, un subespacio $U$ de $F^n$ generado por $m$ vectores de la forma $(a_{i1},\ldots,a_{in})$, y el sistema
+$$\begin{cases}
+    a_{11}x_1+a_{12}x_2+\cdots+a_{1n}x_n=0; \\
+    a_{21}x_1+a_{22}x_2+\cdots+a_{2n}x_n=0; \\
+    \hspace{64pt}\cdots\\
+    a_{m1}x_1+a_{m2}x_2+\cdots+a_{mn}x_n=0,
+  \end{cases}$$
+se define la dimensión de $U$ como el rango del sistema de ecuaciones lineales.
+
+\subsection*{\color{red} Teorema 4F:}
+
+Sea un sistema de ecuaciones de $m\times n$ y rango $r$, donde cada $a_{ij}\in F$:
+$$\begin{cases}
+    a_{11}x_1+a_{12}x_2+\cdots+a_{1n}x_n=0; \\
+    a_{21}x_1+a_{22}x_2+\cdots+a_{2n}x_n=0; \\
+    \hspace{64pt}\cdots\\
+    a_{m1}x_1+a_{m2}x_2+\cdots+a_{mn}x_n=0,
+  \end{cases}$$
+Entonces, existen $n-r$ soluciones linealmente independientes en $F^n$.
+
+\subsubsection*{\color{red} Corolario del teorema 4F:}
+
+Si se tienen más variables que ecuaciones en un sistema de ecuaciones de $m\times n$ (es decir, si $n>m$), entonces existe una solución $(x_1,\ldots,x_n)$ del sistema donde no todos los $x_1,\ldots,x_n$ son cero.
+
+\newpage
+\section{Espacios de producto interno}
+
+Se dice que el espacio vectorial $V$ sobre $F$ es un espacio de producto interno si para cada $u,v,w\in V$ y $\alpha,\beta\in F$ se cumple
+
+\begin{itemize}
+\item $\langle u,v \rangle=\overline{\langle v,u \rangle}$;
+
+\item $\langle u,u \rangle\geq 0$;
+
+\item $\langle u,u \rangle=0$ si y solo si $u=0$;
+
+\item $\langle \alpha u+\beta v,w \rangle=\alpha\langle u,w \rangle+\beta\langle v,w \rangle$.
+\end{itemize}
+
+\subsection*{\color{violet} Norma}
+
+Dado $v\in V$, se define la norma de $v$ como $\norm{v}=\sqrt{\langle v,v \rangle}$.
+
+\subsection*{\color{blue} Lema 4.12:}
+
+Si $u,v\in V$ y $\alpha,\beta\in F$, entonces $\langle \alpha u+\beta v,\alpha u+\beta v \rangle=\alpha\overline{\alpha}\langle u,u \rangle+\alpha\overline{\beta}\langle u,v \rangle+\overline{\alpha}\beta\langle v,u \rangle+\beta\overline{\beta}\langle v,v \rangle$.
+
+\subsubsection*{\color{blue} Corolario del lema 4.12:}
+
+Si $v\in V$ y $\alpha\in F$, entonces $\norm{\alpha v}=|\alpha|\norm{v}$.
+
+\subsection*{\color{blue} Lema 4.13:}
+
+Dados $a,b,c,\lambda\in\mathbb{R}$ tales que $a>0$ y $a\lambda^2+2b\lambda+c\geq 0$ para todo $\lambda$, entonces $b^2\leq ac$.
+
+\subsection*{\color{red} Teorema 4G (Cauchy-Schwarz):}
+
+Si $u,v\in V$, entonces $|\langle u,v\rangle|\leq\norm{u}\norm{v}$.
+
+\subsection*{\color{violet} Vectores ortogonales}
+
+Si $u,v\in V$, se dice que $u$ es ortogonal a $v$ si $\langle u,v\rangle=0$.
+
+\subsection*{\color{violet} Complemento ortogonal}
+
+Si $W$ es un subespacio de $V$, se llama complemento ortogonal de $W$ al conjunto 
+$$W^{\perp}=\{x\in V\mid \forall w\in W,\langle x,w\rangle=0\}.$$
+
+\subsection*{\color{blue} Lema 4.14:}
+
+Si $W$ es un subespacio de $V$, entonces $W^{\perp}$ es subespacio de $V$.
+
+\subsection*{\color{violet} Vectores ortonormales}
+
+Un conjunto de vectores $v_1,\ldots,v_n$ es ortonormal si:
+\begin{itemize}
+\item $\forall v_i$, $\norm{v_i}=1$;
+
+\item Si $i\neq j$, entonces $\langle v_i,v_j\rangle\neq0$.
+\end{itemize}
+
+\subsection*{\color{blue} Lema 4.15:}
+
+Dado un conjunto $v_1,\ldots,v_n$ de vectores ortonormales, estos son linealmente independientes entre sí. Dada una combinación lineal $w=\alpha_1v_1+\cdots+\alpha_nv_n$, entonces $\alpha_i=\langle w,v_i\rangle$.
+
+\subsection*{\color{blue} Lema 4.16:}
+
+Dado un conjunto $v_1,\ldots,v_n$ de vectores ortonormales y un $w\in V$, entonces
+$$u=w-\sum_{k=1}^n \langle w,v_k\rangle v_k$$
+es ortogonal a cada vector de $v_1,\ldots,v_n$.
+
+\subsection*{\color{red} Teorema 4H:}
+
+Si $V$ es un espacio de producto interno finito-dimensional, entonces tiene un conjunto ortonormal como base.
+
+\subsection*{\color{red} Teorema 4I:}
+
+Si $V$ es un espacio de producto interno finito-dimensional con un subespacio $W$, entonces $V=W\oplus W^{\perp}$.
+
+\subsubsection*{\color{red} Corolario del teorema 4I:}
+
+Si $V$ es un espacio de producto interno finito-dimensional con un subespacio $W$, entonces $V=\big(W^{\perp}\big)^{\perp}$.
+
+\newpage
+
+\section{Módulos}
+
+Dado un anillo $R$, un conjunto no vacío $M$ es un $R$-módulo (o un módulo sobre $R$) si $M$ es un grupo abeliano bajo la suma tal que para todo $r\in R$ y $m\in M$, se tiene $rm\in M$ tal que:
+
+\begin{itemize}
+\item $r(a+b)=ra+rb$;
+\item $r(sa)=(rs)a;$;
+\item $(r+s)a=ra+sa$;
+\end{itemize}
+para todo $a,b\in M$ y $r,s\in R$. Si $1\in R$ es tal que $1\cdot m=m$ para todo $m\in M$, entonces se dice que $M$ es un $R$-módulo unital.
+
+\subsection*{\color{teal} Ejemplos de módulos}
+
+\begin{itemize}
+\item Todo grupo abeliano $G$ es un módulo sobre el anillo de los números enteros, $(\mathbb{Z},+)$.
+\item Dado $R$ un anillo, todo $M$ un ideal izquierdo de $R$ es un $R$-módulo.
+\item Todo anillo $R$ es un $R$-módulo sobre sí mismo.
+\item Dado $R$ un anillo con un ideal izquierdo $\lambda$, el conjunto $M$ de todas las clases laterales de $\lambda$ sobre $R$ es un $R$-módulo.
+\end{itemize}
+
+\subsection*{\color{violet} Suma directa de módulos}
+
+Si $M$ es un $R$-módulo y si $M_1,\ldots,M_s$ son submódulos de $M$, entonces se dice que $M$ es la suma directa de $M_1,\ldots,M_s$ si todo $m\in M$ puede escribirse de manera única como $m=m_1+\cdots+m_s$, donde $m_k\in M_k$ para $1\leq k\leq s$ entero.
+
+\subsection*{\color{violet} Módulos cíclicos}
+
+Un $R$-módulo $M$ es cíclico si existe un elemento $m_0\in M$ tal que todo $m\in M$ es de la forma $m=rm_0$, para algún $r\in R$.
+
+\subsection*{\color{violet} Módulos finito-generados}
+
+Un $R$-módulo $M$ es finito generado si existen elementos $a_1,\ldots,a_n\in M$ tales que todo $m\in M$ sea de la forma $m=r_1a_1+\cdots+r_na_n$, para algunos $r_k\in R$.
+
+\subsection*{\color{red} Teorema 4J (Teorema fundamental de módulos finito-generados):}
+
+Sea $R$ un anillo euclideano; entonces cualquier $R$-módulo finito-generado $M$ es la suma directa de un número finito de submódulos cíclicos.
+
+\subsubsection*{\color{red} Corolario del teorema 4J:}
+
+Todo groupo abeliano finito es el producto directo de grupos cíclicos.
+
+\end{document}
